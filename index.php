@@ -22,7 +22,7 @@
 	<!--Navigation Bar-->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
-			<a href="index.php" class="navbar-brand">Shaunta's Boutqiue</a>
+			<a href="index.php" class="navbar-brand">Shaunta's Boutqiue Changed</a>
 			<ul class="nav navbar-nav">
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Men<span class="caret"></span></a>
