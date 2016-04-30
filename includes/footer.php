@@ -28,6 +28,27 @@
 			"transform" : "translate(0px, -"+ vscroll/2 +"px)"
 		});
 	})
+
+	//This function is called when you click the details button of a product (using onclick="detailsmodal()") and it has 1 parameter of "id" which is set with the onclick attribute by using the $product['id'] variable which is acquired through querying the database
+	function detailsmodal(id){
+		//Store the current ID thats been passed through as a paramenter in a JSON Object (The curly braces and the colon are characteristics of a JSON)
+		var data = {"id" : id};
+		jQuery.ajax({
+			url : <?= BASEURL; ?>+'includes/detailsmodal.php',
+			method : "post",
+			data: data,
+			success : function(data){
+				//Upon success of the ajax, the data is added at the bottom of the body
+				$('body').append(data);
+
+				//Open the modal. the .modal() function is a bootstrap.js function
+				$('#details-modal').modal('toggle');
+			},
+			error : function(){
+				alert("Something went wrong!");
+			}
+		});
+	}
 </script>
 </body>
 </html>

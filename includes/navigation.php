@@ -19,8 +19,8 @@ $pquery = $db->query($sql);
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $parent['category']; ?><span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<?php while($category = mysqli_fetch_assoc($cquery)) : 
-						echo '<li><a href="#">' . $category['category'] . '</a></li>';
+						<?php while($child = mysqli_fetch_assoc($cquery)) : 
+						echo '<li><a href="#">' . $child['category'] . '</a></li>';
 						endwhile;
 						?>
 					</ul>
