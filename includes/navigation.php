@@ -1,17 +1,34 @@
+<?php
+$sql = "SELECT * FROM categories WHERE parent=0";
+//use the $db object and call the query method with the query as argument
+$pquery = $db->query($sql);
+?>
+
 <!--Navigation Bar-->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<a href="index.php" class="navbar-brand">Shaunta's Boutqiue</a>
 			<ul class="nav navbar-nav">
+				<?php while($parent = mysqli_fetch_assoc($pquery)) : ?>
+					<?php 
+					//Store the current parent id in a variable we can use
+					$parent_id = $parent['id']; 
+					$sql2 = "SELECT * FROM categories WHERE parent=$parent_id";
+					$cquery = $db->query($sql2);
+					?>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Men<span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $parent['category']; ?><span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Shirts</a></li>
-						<li><a href="#">Pants</a></li>
-						<li><a href="#">Shoes</a></li>
-						<li><a href="#">Accessories</a></li>
+						<?php while($category = mysqli_fetch_assoc($cquery)) : 
+						echo '<li><a href="#">' . $category['category'] . '</a></li>';
+						endwhile;
+						?>
 					</ul>
 				</li>
+			<?php 
+			//using a colon to open and endwhile; to close is the same as using { and }
+			endwhile; 
+			?>
 			</ul>
 		</div>
 	</nav>
