@@ -34,7 +34,7 @@
 		//Store the current ID thats been passed through as a paramenter in a JSON Object (The curly braces and the colon are characteristics of a JSON)
 		var data = {"id" : id};
 		jQuery.ajax({
-			url : <?= BASEURL; ?>+'includes/detailsmodal.php',
+			url : '/phpEcommerce/includes/detailsmodal.php',
 			method : "post",
 			data: data,
 			success : function(data){
