@@ -11,7 +11,7 @@ body {
 	background-image:url("../images/headerlogo/background.png");
 	background-repeat: no-repeat;
 	background-size: 100% 700px;
-	backgorund-position:top center;
+	background-position:top center;
 	background-attachment: fixed;
 }
 
@@ -73,4 +73,9 @@ img.details{
 
 #add-product-button{
 	margin-top: -30px;
+}
+
+.saved-image img{
+	width:200px;
+	height:auto;
 }

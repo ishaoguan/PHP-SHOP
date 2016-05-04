@@ -18,12 +18,17 @@
 		jQuery('#sizes').val(sizeString);
 	}
 
-	function get_child_options(){
+	function get_child_options(selected){
+
+		// The if typeof selected is essentially just setting the default value of var selected
+		if (typeof selected === 'undefined'){
+			var selected = '';
+		}
 		var parentID = jQuery('#parent').val();
 		jQuery.ajax({
 			url: '/phpEcommerce/admin/parsers/child_categories.php',
 			type: 'POST',
-			data: {parentID : parentID},
+			data: {parentID : parentID, selected : selected},
 			success: function(data){
 				//sent the data object to the html with the id of child.
 				//the data in this case is the buffer from child_categories.php as that is the URL set above and where the parentID is sent via POST (type: POST above)
@@ -32,7 +37,10 @@
 			error: function(){alert("Something went wrong with the child options");}
 		});
 	}
-	jQuery('select[name="parent"]').change(get_child_options);
+	//Listener ~ listens for <select name="parent"> to change and then fires the function "get_child_options()"
+	jQuery('select[name="parent"]').change(function(){
+		get_child_options();
+	});
 </script>	
 </body>
 </html>
