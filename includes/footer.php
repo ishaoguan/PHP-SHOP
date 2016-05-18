@@ -49,6 +49,38 @@
 			}
 		});
 	}
+
+	function add_to_cart(){
+		//clear out any existing errors
+		jQuery('#modal_errors').html("");
+		//grab form input values for validation
+		var size = jQuery('#size').val();
+		var quantity = jQuery('#quantity').val();
+		var available = jQuery('#available').val();
+		var error = '';
+		//serialize the add product form aka put it into a GET format e.g. size=30&quantity=3
+		//the data will be sent off via POST in the ajax method below
+		var data = jQuery('#add_product_form').serialize();
+		if(size == '' || quantity == '' || quantity == 0) {
+			error += '<p class="text-danger text-center">You must choose a size and quantity</p>';
+			$('#modal_errors').html(error);
+			return;
+		}else if(quantity > available){
+			error += '<p class="text-danger text-center">There are only '+available+' available.</p>';
+			$('#modal_errors').html(error);
+			return;
+		}else{
+			jQuery.ajax({
+				url : '/phpEcommerce/admin/parsers/add_cart.php',
+				method : 'post',
+				data : data,
+				success : function(){
+					location.reload();
+				},
+				error : function(){alert("Something went wrong");}
+			});
+		}
+	}
 </script>
 </body>
 </html>

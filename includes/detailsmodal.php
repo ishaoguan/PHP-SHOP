@@ -38,6 +38,7 @@ $size_array = explode(',', $sizestring);
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
+							<div id="modal_errors" class="bg-danger"></div>
 							<div class="col-sm-6">
 								<div class="center-block">
 									<img src="<?= $product['image'] ?>" alt="<?= $product['title'] ?>" class="details img-responsive">
@@ -49,14 +50,16 @@ $size_array = explode(',', $sizestring);
 								<hr>
 								<p>Price: $<?= $product['price'] ?></p>
 								<p>Brand: <?= $brand['brand'] ?></p>
-								<form action="add_cart.php" method="post">
+								<form action="add_cart.php" method="post" id="add_product_form">
+									<input type="hidden" name="product_id" value="<?=$id;?>">
+									<input type="hidden" name="available" id="available" value="">
 									<div class="form-group">
 										<div class="col-xs-3">
 											<label for="quantity">Quantity:</label>
-											<input type="text" class="form-control" id="quantity" name="quantity">
+											<input type="number" class="form-control" id="quantity" name="quantity" min="0">
 										</div><div class="col-xs-9"></div>
 									</div><br><br>
-									<div class="form-group">
+									<div class="form-group"><br><br>
 										<label for="size">Size:</label>
 										<select name="size" id="size" class="form-control">
 											<option value="">Choose a size</option>
@@ -65,8 +68,8 @@ $size_array = explode(',', $sizestring);
 													//Separate the size value and quantity for this current string wherever there is a colon.
 													$string_array = explode(':', $string);
 													$size = $string_array[0];
-													$quantity = $string_array[1];
-													echo '<option value="' . $size . '">' . $size . ' ('.$quantity.' Available)</option>';
+													$available = $string_array[1];
+													echo '<option value="' . $size . '" data-available="'.$available.'">' . $size . ' ('.$available.' Available)</option>';
 												}
 											?>
 										</select>
@@ -78,12 +81,17 @@ $size_array = explode(',', $sizestring);
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-default" onclick="closeModal()">Close</button>
-					<button class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-shopping-cart"></span>Add To Cart</button>
+					<button class="btn btn-warning" onclick="add_to_cart();return false;"><span class="glyphicon glyphicon-shopping-cart"></span>Add To Cart</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
+	jQuery('#size').change(function(){
+		var available = jQuery('#size option:selected').data('available');
+		jQuery('#available').val(available);
+	});
+
 		function closeModal(){
 			jQuery('#details-modal').modal('hide');
 

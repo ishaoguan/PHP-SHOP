@@ -150,7 +150,9 @@
 			echo display_errors($errors);
 		}else{
 			# Upload file and Insert into database
-			move_uploaded_file($tmpLoc,$uploadPath); #(from, destination)
+			if(!empty($_FILES)){
+				move_uploaded_file($tmpLoc,$uploadPath); #(from, destination)
+			}
 			$insertSQL = "INSERT INTO products (`title`,`price`,`list_price`,`brand`,`categories`,`sizes`,`image`,`description`) VALUES ('$title','$price','$list_price','$brand','$category','$sizeString','$dbpath','$description')";
 			if(isset($_GET['edit'])){
 				# if we're editing, we want to update a record rather than insert a new one

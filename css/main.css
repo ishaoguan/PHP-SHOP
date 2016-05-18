@@ -7,10 +7,10 @@ body {
 	padding:0;
 	margin:0;
 	overflow:hidden;
-	height:600px;
+	height:1000px;
 	background-image:url("../images/headerlogo/background.png");
 	background-repeat: no-repeat;
-	background-size: 100% 700px;
+	background-size: cover;
 	background-position:top center;
 	background-attachment: fixed;
 }
@@ -22,9 +22,14 @@ body {
 	background-image: url('../images/headerlogo/text.png');
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 70% 180px;
+	background-size: 936px 178px;
 	top:50%;
 	margin-top: -90px;
+}
+@media (max-width: 900px){
+	#logotext{
+		background-size: 468px 89px;
+	}
 }
 
 #fore-flower{
@@ -35,7 +40,7 @@ body {
 	background-size: auto 400px;
 	background-repeat:no-repeat;
 	background-position: right bottom;
-	top:525px;
+	top:970px;
 	right:-50px;
 }
 
@@ -47,7 +52,7 @@ body {
 	background-position: left bottom;
 	background-repeat: no-repeat;
 	background-size:auto 350px;
-	top:400px;
+	top:810px;
 	left:-25px;
 
 }
@@ -112,7 +117,7 @@ body {
 }
 
 img.details{
-	width:33%;
+	width:70%;
 	margin: 15px auto;
 }
 
