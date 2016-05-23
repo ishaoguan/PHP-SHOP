@@ -16,5 +16,7 @@
 
 	<!--Bootstrap JS-->
 	<script src="js/bootstrap.min.js"></script>
+
+	<script src="https://js.stripe.com/v2/"></script>
 </head>
 <body>

@@ -7,9 +7,12 @@ if (mysqli_connect_errno()) {
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/phpEcommerce/config.php';
 require_once BASEURL.'helpers/helpers.php';
+require BASEURL.'vendor/autoload.php';
 
+# $_COOKIE[CART_COOKIE] is set to the value of the cart id when it's created
 $cart_id = '';
 if(isset($_COOKIE[CART_COOKIE])){
+	# hence why we set $cart_id = to cookie id, allowing us to refer to the cart_id anywhere
 	$cart_id = sanitize($_COOKIE[CART_COOKIE]);
 }
 

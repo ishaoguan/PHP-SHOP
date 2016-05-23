@@ -145,3 +145,20 @@ img.details{
 	padding: 15px 30px;
 	background-color:white;
 }
+
+.totals-table-header th{
+	text-align: center;
+}
+
+#step1{
+	display:block;
+}
+#step2{
+	display:none;
+}
+
+#checkout_button, #back_button{display:none;}
+
+#cart_widget td, #recent_widget{
+	font-size: 12px;
+}

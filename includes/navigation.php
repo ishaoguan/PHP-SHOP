@@ -27,8 +27,8 @@ $pquery = $db->query($sql);
 				</li>
 			<?php 
 			//using a colon to open and endwhile; to close is the same as using { and }
-			endwhile; 
-			?>
+			endwhile; ?>
+			<li><a href="cart.php"><span class="glyphicon glyphicon-shopping-cart"></span> My Cart</a></li>
 			</ul>
 		</div>
 	</nav>

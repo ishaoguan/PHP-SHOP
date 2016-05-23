@@ -25,6 +25,7 @@
 		$delete_id = sanitize($delete_id);
 		$sql = "DELETE FROM brand WHERE id='$delete_id'";
 		$db->query($sql);
+		$_SESSION['success_flash'] = 'Brand successfully deleted';
 		header('Location: brands.php');
 	}
 

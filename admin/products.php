@@ -52,8 +52,8 @@
 
 			$parent = ((isset($_POST['parent']) && $_POST['parent'] != '')? sanitize($_POST['parent']) :  $parentResult['parent'] );
 			$price = ((isset($_POST['price']) && $_POST['price'] != '')? sanitize($_POST['price']) :  $product['price'] );
-			$list_price = ((isset($_POST['list_price']) && $_POST['list_price'] != '')? sanitize($_POST['list_price']) :  $product['list_price'] );
-			$description = ((isset($_POST['description']) && $_POST['description'] != '')? sanitize($_POST['description']) :  $product['description'] );
+			$list_price = ((isset($_POST['list_price']))? sanitize($_POST['list_price']) :  $product['list_price'] );
+			$description = ((isset($_POST['description']))? sanitize($_POST['description']) :  $product['description'] );
 			$sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')? sanitize($_POST['sizes']) :  $product['sizes'] );
 			$saved_image = (($product['image'] != '')?$product['image']:'');
 			$dbpath = $saved_image;
@@ -101,7 +101,10 @@
 		}
 
 		# If a file has been selected, then..
-		if (!empty($_FILES)) {
+		# The reason why we used photo name not equal a blank string is because..
+		# even if you dont select a file, the FILES array is still populated
+		# hence if(!empty($_FILES)) wouldn't work as files is never empty
+		if ($_FILES['photo']['name'] != '') {
 			# the input type="file" has the name of photo and so its stored in $_FILES associative array with the index ['photo']
 			$photo = $_FILES['photo'];
 			$name = $photo['name'];

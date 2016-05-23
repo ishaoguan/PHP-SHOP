@@ -6,6 +6,8 @@
 	$available = sanitize($_POST['available']);
 	$quantity = sanitize($_POST['quantity']);
 	$item = array();
+	//Add an array to the array, so now each array item is like this (id=1, size=small, quantity=5)
+	//this is later encoded using json_encode and entered into the cart table either in an existing cart or a new cart.
 	$item[] = array(
 		'id' => $product_id,
 		'size' => $size,

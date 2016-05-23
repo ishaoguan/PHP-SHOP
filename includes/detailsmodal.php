@@ -48,7 +48,7 @@ $size_array = explode(',', $sizestring);
 								<h4>Details</h4>
 								<p><?= nl2br($product['description']); ?></p>
 								<hr>
-								<p>Price: $<?= $product['price'] ?></p>
+								<p>Price: £<?= $product['price'] ?></p>
 								<p>Brand: <?= $brand['brand'] ?></p>
 								<form action="add_cart.php" method="post" id="add_product_form">
 									<input type="hidden" name="product_id" value="<?=$id;?>">
@@ -69,7 +69,9 @@ $size_array = explode(',', $sizestring);
 													$string_array = explode(':', $string);
 													$size = $string_array[0];
 													$available = $string_array[1];
-													echo '<option value="' . $size . '" data-available="'.$available.'">' . $size . ' ('.$available.' Available)</option>';
+													if($available > 0){
+														echo '<option value="' . $size . '" data-available="'.$available.'">' . $size . ' ('.$available.' Available)</option>';
+													}
 												}
 											?>
 										</select>

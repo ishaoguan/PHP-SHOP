@@ -14,7 +14,7 @@ function sanitize($dirty){
 }
 
 function money($number){
-	return '$'.number_format($number,2);
+	return '£'.number_format($number,2);
 }
 
 function login($user_id){
@@ -74,6 +74,30 @@ function get_category($child_id) {
 	$query = $db->query($sql);
 	$category = mysqli_fetch_assoc($query);
 	return $category;
+}
+
+# In the products table, the sizes are stored as a string with the format "small:3, medium:1"
+# This function converts that string into a key value array by splitting each s/q combination into separate array items
+# Then splitting the s/q combination into a key value pair of size => s and quantity => q
+function sizesToArray($string){
+	$sizesArray = explode(', ',$string);
+	$returnArray = array();
+	foreach($sizesArray as $size){
+		$s = explode(':',$size);
+		$returnArray[] = array('size' => $s[0], 'quantity' => $s[1]);
+	}
+	return $returnArray;
+}
+
+# This function produces the reverse of sizesToArray function by turning the array into a string
+# It loops through each array item and adds the size followed by a ":" followed by quantity and then a comma on the end to separate each s/q combination.
+function sizesToString($sizes){
+	$sizeString = '';
+	foreach ($sizes as $size){
+		$sizeString .= $size['size'] .':'. $size['quantity'] .',';
+	}
+	$trimmed = rtrim($sizeString,',');
+	return $trimmed;
 }
 
 ?>
