@@ -1,10 +1,10 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'].'/phpEcommerce/core/init.php';
+	require_once("../core/init.php");
 	if(!is_logged_in()){
 		login_error_redirect();
 	}
-	include 'includes/head.php';
-	include 'includes/navigation.php';
+	include("includes/head.php");
+	include("includes/navigation.php");
 
 	//Delete Product (Archive it)
 	if(isset($_GET['delete'])){
@@ -34,11 +34,16 @@
 			$productResults = $db->query("SELECT * FROM products WHERE id = '$edit_id'");
 			$product = mysqli_fetch_assoc($productResults);
 			if(isset($_GET['delete_image'])){
-				$image_url = $_SERVER['DOCUMENT_ROOT'].$product['image'];
+				$imgi = (int)$_GET['imgi'] - 1;
+				$images = explode(',',$product['image']);
+				$image_url = $_SERVER['DOCUMENT_ROOT'].$images[$imgi];
 				# use PHP build in unlink function to delete a file from the given path
 				unlink($image_url);
+				//remove the photo deleted from the array and turn array back to string for db entry
+				unset($images[$imgi]);
+				$imageString = implode(',',$images);
 				# Remove the image path from the product record and relocate back to edit form
-				$db->query("UPDATE products SET image = '' WHERE id = '$edit_id'");
+				$db->query("UPDATE products SET image = '$imageString' WHERE id = '$edit_id'");
 				header('Location: products.php?edit='.$edit_id);
 			}
 			# Update the variables displayed in the forms if $_GET['edit'] is set.
@@ -92,6 +97,9 @@
 		$errors = array();
 
 		$required = array('title', 'brand', 'price', 'child', 'sizes');
+		$allowed = array('png', 'jpg', 'jpeg', 'gif');
+		$uploadPath = array();
+		$tmpLoc = array();
 		foreach ($required as $field){
 			if($_POST[$field] == ''){
 				$errors[] = 'All fields with astrisk* are required.';
@@ -99,53 +107,52 @@
 				break;
 			}
 		}
+		
+		$photoCount = count($_FILES['photo']['name']); 
+		
+		if ($photoCount > 0) {
+			for($i = 0;$i < $photoCount; $i++){
 
-		# If a file has been selected, then..
-		# The reason why we used photo name not equal a blank string is because..
-		# even if you dont select a file, the FILES array is still populated
-		# hence if(!empty($_FILES)) wouldn't work as files is never empty
-		if ($_FILES['photo']['name'] != '') {
 			# the input type="file" has the name of photo and so its stored in $_FILES associative array with the index ['photo']
-			$photo = $_FILES['photo'];
-			$name = $photo['name'];
-			$uploadName = '';
-			$uploadPath = '';
+			 	$name = $_FILES['photo']['name'][$i];
+			 	$nameArray = explode('.',$name);
+			 	$fileName = $nameArray[0];
+			 	$fileExt = $nameArray[1];		 	
+			 	# add unique name for uploaded file and keep the file extension
+			 	$uploadName = md5(microtime().$i).'.'.$fileExt;
+			 	# upload path in this case is C:/xampp/htdocs/phpecommerce/images/products
+			 	$uploadPath[] = BASEURL.'images/products/'.$uploadName;
 
-			# if ($name) means that all the upload related functionality only happens if a name exists. without a name means that the user hasn't selected a file and so there's no reason to create file paths and check the file etc.
-			if ($name) {
-			$nameArray = explode('.',$name);
-			$fileName = $nameArray[0];
-			$fileExt = $nameArray[1];
-			# add unique name for uploaded file and keep the file extension
-			$uploadName = md5(microtime()).'.'.$fileExt;
-			# upload path in this case is C:/xampp/htdocs/phpecommerce/images/products
-			$uploadPath = BASEURL.'images/products/'.$uploadName;
-			# the path entered into the database
-			$dbpath = '/phpEcommerce/images/products/'.$uploadName;
+			 	if($i != 0){
+			 		//comma to separate image paths
+			 		$dbpath .= ',';
+			 	}
 
-			$mime = explode('/',$photo['type']);
-			$mimeType = $mime[0];
-			$tmpLoc = $photo['tmp_name'];
-			$fileSize = $photo['size'];
-			$allowed = array('png', 'jpg', 'jpeg', 'gif');
+			 	# the path entered into the database
+			 	$dbpath .= '/phpEcommerce/images/products/'.$uploadName;
 
-				//Size Check
-				if ($fileSize > 15000000) {
-					$errors[] = 'The file size must be under 15MB.';
-				}
-				//Image Check - Type of file
-				if ($mimeType != 'image' && $mimeType != '') {
-					$errors[] = 'The file must be an image.';
-				}
-				//Extension Check
-				if (!in_array($fileExt, $allowed) && !empty($fileExt)) {
-					$errors[] = 'The file type must be PNG, JPG, JPEG or GIF.';
-				}
+			 	$mime = explode('/',$_FILES['photo']['type'][$i]);
+			 	$mimeType = $mime[0];
+			 	$tmpLoc[] = $_FILES['photo']['tmp_name'][$i];
+			 	$fileSize = $_FILES['photo']['size'][$i];
+			 	
 
-			}
+			 		//Size Check
+			 		if ($fileSize > 15000000) {
+			 			$errors[] = 'The file size must be under 15MB.';
+			 		}
+			 		//Image Check - Type of file
+			 		if ($mimeType != 'image' && $mimeType != '') {
+			 			$errors[] = 'The file must be an image.';
+			 		}
+			 		//Extension Check
+			 		if (!in_array($fileExt, $allowed) && !empty($fileExt)) {
+			 			$errors[] = 'The file type must be PNG, JPG, JPEG or GIF.';
+			 		}
+
+			} // END FOR
 			
-			
-		}
+		} //END IF
 
 		if(!empty($errors)){ //If the error array is populated..
 
@@ -153,8 +160,10 @@
 			echo display_errors($errors);
 		}else{
 			# Upload file and Insert into database
-			if(!empty($_FILES)){
-				move_uploaded_file($tmpLoc,$uploadPath); #(from, destination)
+			if($photoCount > 0){
+				for($i = 0;$i < $photoCount;$i++){
+					move_uploaded_file($tmpLoc[$i],$uploadPath[$i]); #(from, destination)
+				}
 			}
 			$insertSQL = "INSERT INTO products (`title`,`price`,`list_price`,`brand`,`categories`,`sizes`,`image`,`description`) VALUES ('$title','$price','$list_price','$brand','$category','$sizeString','$dbpath','$description')";
 			if(isset($_GET['edit'])){
@@ -218,13 +227,19 @@
 			</div>
 			<div class="form-group col-md-6">
 				<?php if($saved_image != ''): ?>
-					<div class="saved-image">
-						<img src="<?=$saved_image;?>" alt="saved image" /><br>
-						<a href="products.php?delete_image=1&edit=<?=$edit_id;?>" class="text-danger">Delete Image</a>
+					<?php
+						$imgi = 1;
+						$images = explode(',',$saved_image); ?>
+					<?php foreach($images as $image) : ?>
+					<div class="saved-image col-md-4">
+						<img src="<?=$image;?>" alt="saved image" /><br>
+						<a href="products.php?delete_image=1&edit=<?=$edit_id;?>&imgi=<?=$imgi;?>" class="text-danger">Delete Image</a>
 					</div>
+					<?php $imgi++; 
+						  endforeach; ?>
 				<?php else: ?>
 					<label for="photo">Product Photo:</label>
-					<input type="file" name="photo" id="photo" class="form-control">
+					<input type="file" name="photo[]" id="photo" class="form-control" multiple>
 				<?php endif; ?>
 			</div>
 			<div class="form-group col-md-6">
@@ -248,7 +263,7 @@
 		      <div class="modal-body">
 		      	<div class="container-fluid">
 		        <?php for($i =1; $i <= 12; $i++): ?>
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-3">
 						<label for="size<?=$i;?>">Size:</label>
 						<input type="text" class="form-control" name="size<?=$i;?>" id="size<?=$i;?>" value="<?=((!empty($sArray[$i-1]))?$sArray[$i-1]:''); ?>">
 					</div>

@@ -100,4 +100,31 @@ function sizesToString($sizes){
 	return $trimmed;
 }
 
+# EXAMPLE USAGE:
+# $a = sanitize_if_is_set('a','post');
+# <form method="post"
+# <input type="text" name="a" value="<?php echo $a; #closephp">
+function sanitize_if_is_set($field, $method, $value_if_not_set = ''){
+	if ($method == 'post'){
+		if(isset($_POST[$field])){
+			return sanitize($_POST[$field]);
+		} else {
+			return $value_if_not_set;
+		}
+	} elseif ($method == 'get'){
+		if(isset($_GET[$field])){
+			return sanitize($_GET[$field]);
+		} else {
+			return $value_if_not_set;
+		}
+
+	} elseif ($method == 'request'){
+		if(isset($_REQUEST[$field])){
+			return sanitize($_REQUEST[$field]);
+		} else {
+			return $value_if_not_set;
+		}
+	}
+}
+
 ?>

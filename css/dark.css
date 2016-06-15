@@ -1,0 +1,52 @@
+@font-face{
+	font-family: Bebas;
+	src: url(../fonts/BEBAS.TTF);
+}
+
+h1, h2, nav {
+	font-family: Bebas;
+}
+#logotext h1:after {
+	/*Text unique to this theme*/
+	content: 'BAG CENTRAL';
+}
+#logotext h2 small:after {
+	/*Text unique to this theme*/
+	content : '100% positive feedback from day 1.';
+}
+
+#headerWrapper {
+	background-image: url("../images/headerlogo/bg.jpe");
+}
+
+#fore-flower{
+	background-image:url("../images/headerlogo/bag-parallax.png");
+}
+#back-flower{
+	background-image:url("../images/headerlogo/charm-parallax.png");
+}
+
+.navbar-default{
+	background:black;
+}
+.navbar-default .navbar-nav>li>a {
+	color:white;
+}
+.navbar-default .navbar-brand, .nav>li>a{
+	color:pink;
+}
+
+#logotext{
+	width:auto; height:auto;
+	position:absolute;
+	left:50%; top:50%;
+	-webkit-transform:translate(-50%,-50%);
+	color:gray;
+	letter-spacing: 1.5px;
+	word-spacing: 2px;
+	background-image:none;
+}
+#logotext small{
+	color:#333;
+	letter-spacing: 1px;
+}

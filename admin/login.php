@@ -1,5 +1,6 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'].'/phpEcommerce/core/init.php';
+	# already included in the head:
+	# require_once $_SERVER['DOCUMENT_ROOT'].'/PHP-SHOP/core/init.php';
 	include 'includes/head.php';
 
 	$email = ((isset($_POST['email']))?sanitize($_POST['email']):'');

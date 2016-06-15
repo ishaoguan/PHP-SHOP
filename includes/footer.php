@@ -9,20 +9,24 @@
 		
 		//Paralax LOGO
 		var vscroll = $(this).scrollTop();
-		jQuery('#logotext').css({
+		jQuery('#logotext small').css({
+			"opacity" : (130-vscroll)/100
+		});
+		jQuery('#logotext h1').css({
 			//Setting the Y position of the image by using translate and the variable above
 			"transform" : "translate(0px, "+ vscroll/2 +"px)"
 		});
+		jQuery('#logotext h2').css({
+			"transform" : "translate(0px, "+ vscroll +"px)"
+		});
 
 		//Paralax BACKFLOWER
-		var vscroll = $(this).scrollTop();
 		jQuery('#back-flower').css({
 			//Setting the Y position of the image by using translate and the variable above
 			"transform" : "translate(" + vscroll/5 + "px, -" + vscroll/12 + "px)"
 		});
 
 		//Paralax FRONTFLOWER
-		var vscroll = $(this).scrollTop();
 		jQuery('#fore-flower').css({
 			//Setting the Y position of the image by using translate and the variable above
 			"transform" : "translate(0px, -"+ vscroll/2 +"px)"
@@ -34,7 +38,7 @@
 		//Store the current ID thats been passed through as a paramenter in a JSON Object (The curly braces and the colon are characteristics of a JSON)
 		var data = {"id" : id};
 		jQuery.ajax({
-			url : '/phpEcommerce/includes/detailsmodal.php',
+			url : '/PHP-SHOP/includes/detailsmodal.php',
 			method : "post",
 			data: data,
 			success : function(data){
@@ -53,7 +57,7 @@
 	function update_cart(mode,edit_id,edit_size){
 		var data = {"mode" : mode, "edit_id" : edit_id, "edit_size" : edit_size};
 		jQuery.ajax({
-			url : '/phpEcommerce/admin/parsers/update_cart.php',
+			url : '/PHP-SHOP/admin/parsers/update_cart.php',
 			method : "post",
 			data : data,
 			success : function(){location.reload();},
@@ -82,7 +86,7 @@
 			return;
 		}else{
 			jQuery.ajax({
-				url : '/phpEcommerce/admin/parsers/add_cart.php',
+				url : '/PHP-SHOP/admin/parsers/add_cart.php',
 				method : 'post',
 				data : data,
 				success : function(){

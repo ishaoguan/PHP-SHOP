@@ -1,3 +1,5 @@
+/* This style sheet is essential for the website to function */
+
 body {
 	padding-top: 50px;
 }
@@ -7,7 +9,7 @@ body {
 	padding:0;
 	margin:0;
 	overflow:hidden;
-	height:1000px;
+	height:100vh;
 	background-image:url("../images/headerlogo/background.png");
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -15,20 +17,30 @@ body {
 	background-attachment: fixed;
 }
 
-#logotext {
+#logotext{
+	color:white;
+	/*Center Element*/
 	position:absolute;
-	width:100%;
-	height:180px;
-	background-image: url('../images/headerlogo/text.png');
+	left:50%; top:50%;
+	-webkit-transform:translate(-50%,-50%);
+	/*End Center Element*/
+	background-image:url("../images/headerlogo/text.png");
 	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 936px 178px;
-	top:50%;
-	margin-top: -90px;
+	background-size: cover;
+	width:936px; height:178px;
 }
+#logotext h1:after{
+}
+#logotext h1{
+	font-size:80px;
+}
+#logotext h2{
+	margin-top:-20px;
+}
+
 @media (max-width: 900px){
 	#logotext{
-		background-size: 468px 89px;
+		
 	}
 }
 
@@ -40,7 +52,7 @@ body {
 	background-size: auto 400px;
 	background-repeat:no-repeat;
 	background-position: right bottom;
-	top:970px;
+	top:90vh;
 	right:-50px;
 }
 
@@ -52,7 +64,7 @@ body {
 	background-position: left bottom;
 	background-repeat: no-repeat;
 	background-size:auto 350px;
-	top:810px;
+	top:80vh;
 	left:-25px;
 
 }
@@ -116,9 +128,9 @@ body {
 	margin-top:50px;
 }
 
-img.details{
-	width:70%;
-	margin: 15px auto;
+.fotorama{
+	width:300px;
+	height:300px;
 }
 
 .table-auto{
@@ -130,9 +142,12 @@ img.details{
 	margin-top: -30px;
 }
 
+.saved-image{
+	text-align: center;
+}
 .saved-image img{
-	width:200px;
-	height:auto;
+	width:auto;
+	height:150px;
 }
 
 #login-form{
@@ -161,4 +176,8 @@ img.details{
 
 #cart_widget td, #recent_widget{
 	font-size: 12px;
+}
+
+input.price-range{
+	width:55px;
 }

@@ -1,10 +1,10 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'].'/phpEcommerce/core/init.php';
+	require_once("../core/init.php");
 	if(!is_logged_in()){
 		login_error_redirect();
 	}
-	include 'includes/head.php';
-	include 'includes/navigation.php';
+	include("includes/head.php");
+	include("includes/navigation.php");
 
 	//Select the parents query
 	$sql = "SELECT * FROM categories WHERE parent = 0";

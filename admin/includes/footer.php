@@ -3,6 +3,7 @@
 	<footer class="text-center" id="footer">&copy; Copyright 2016 - Design by <a href="http://www.joerushton.com">joerushton</a></footer>
 
 <script>
+	// This function is called when an administrator selects the sizes/quantities of the product their adding
 	function updateSizes(){
 		//declare the size/quantity string
 		var sizeString = '';
@@ -21,16 +22,17 @@
 	function get_child_options(selected){
 
 		// The if typeof selected is essentially just setting the default value of var selected
+		// same as saying if (!isset($selected)) in php
 		if (typeof selected === 'undefined'){
 			var selected = '';
 		}
 		var parentID = jQuery('#parent').val();
 		jQuery.ajax({
-			url: '/phpEcommerce/admin/parsers/child_categories.php',
+			url: '/PHP-SHOP/admin/parsers/child_categories.php',
 			type: 'POST',
 			data: {parentID : parentID, selected : selected},
 			success: function(data){
-				//sent the data object to the html with the id of child.
+				//the (data) here is whatever is returned from the url: ''
 				//the data in this case is the buffer from child_categories.php as that is the URL set above and where the parentID is sent via POST (type: POST above)
 				jQuery('#child').html(data);
 			},

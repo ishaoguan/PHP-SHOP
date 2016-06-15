@@ -39,10 +39,11 @@ $size_array = explode(',', $sizestring);
 					<div class="container-fluid">
 						<div class="row">
 							<div id="modal_errors" class="bg-danger"></div>
-							<div class="col-sm-6">
-								<div class="center-block">
-									<img src="<?= $product['image'] ?>" alt="<?= $product['title'] ?>" class="details img-responsive">
-								</div>
+							<div class="col-sm-6 fotorama">
+								<?php $photos = explode(',',$product['image']);
+								foreach($photos as $photo): ?>
+										<img src="<?= $photo; ?>" alt="<?= $product['title'] ?>" class="details img-responsive">
+								<?php endforeach; ?>
 							</div>
 							<div class="col-sm-6">
 								<h4>Details</h4>
@@ -89,10 +90,14 @@ $size_array = explode(',', $sizestring);
 		</div>
 	</div>
 	<script>
-	jQuery('#size').change(function(){
-		var available = jQuery('#size option:selected').data('available');
-		jQuery('#available').val(available);
-	});
+		jQuery('#size').change(function(){
+			var available = jQuery('#size option:selected').data('available');
+			jQuery('#available').val(available);
+		});
+
+		$(function () {
+		  $('.fotorama').fotorama({'loop':true,'autoplay':true});
+		});
 
 		function closeModal(){
 			jQuery('#details-modal').modal('hide');
@@ -101,5 +106,10 @@ $size_array = explode(',', $sizestring);
 				jQuery('#details-modal').remove();
 			},200);
 		}
+
+		//Make the modal behave the same when you click the background or press escape to close it
+		$('#details-modal').on('hidden.bs.modal', function () {
+    		closeModal();
+		})
 	</script>
 	<?php echo ob_get_clean(); ?>

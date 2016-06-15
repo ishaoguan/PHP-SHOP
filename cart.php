@@ -76,7 +76,7 @@
 				<tbody>
 					<td><?=$item_count?></td>
 					<td><?=money($sub_total);?></td>
-					<td><?=money($tax);?></td>
+					<td><?=money(floatval($tax));?></td>
 					<td class="bg-success"><?=money($grand_total);?></td>
 				</tbody>
 			</table>
